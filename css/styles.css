@@ -138,12 +138,11 @@ h3 { font-size: 1.25rem; }
   position: relative; min-height: 100svh; display: flex; align-items: center;
   color: var(--white); overflow: hidden;
 }
-.hero-media {
+.hero-video {
   position: absolute; inset: 0;
-  background: url('../assets/project-exterior.jpeg') center 35% / cover no-repeat;
-  transform: scale(1.08); animation: heroZoom 16s var(--ease) forwards;
+  width: 100%; height: 100%; object-fit: cover;
+  background: #0d281e;
 }
-@keyframes heroZoom { to { transform: scale(1); } }
 .hero-overlay {
   position: absolute; inset: 0;
   background:
@@ -271,7 +270,10 @@ h3 { font-size: 1.25rem; }
 
 /* ===================== SHOWCASE ===================== */
 .showcase { position: relative; min-height: 62vh; display: flex; align-items: center; overflow: hidden; color: #fff; }
-.showcase-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.showcase-media {
+  position: absolute; inset: 0;
+  background: url('../assets/project-exterior.jpeg') center 35% / cover no-repeat;
+}
 .showcase-overlay { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(13,40,30,.88), rgba(13,40,30,.45)); }
 .showcase-content { position: relative; max-width: 560px; padding: 4rem 0; }
 .showcase-content h2 { color: #fff; margin-bottom: .8rem; }

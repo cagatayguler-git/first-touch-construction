@@ -38,8 +38,9 @@ python3 -m http.server 8080
 
 - The **contact form is a front-end demo** — it validates and confirms in the browser but does not
   send anywhere yet. Wire it to an email service (Formspree, Resend, a serverless function, etc.)
-  and update the phone/email placeholders in `index.html` before going live.
-- Phone (`+44 (0) 000 000 000`) and email (`hello@firsttouch.co.uk`) are **placeholders**.
+  before going live.
+- Phone (`07743 516554`) and email (`kutay@firsttouchconstruction.co.uk`) are the **live** contact
+  details.
 - Images are photo renders of the brand logo and real project work supplied by the client.
 
 ## Deploy
