@@ -21,7 +21,7 @@ jobs:
       - name: Stage site files
         run: |
           rm -rf dist && mkdir dist
-          cp index.html dist/
+          cp index.html 404.html dist/
           cp -R css js assets dist/
           find dist -type f | sort
 

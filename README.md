@@ -62,7 +62,7 @@ To deploy by hand (same thing the workflow does):
 
 ```bash
 rm -rf dist && mkdir dist
-cp index.html dist/ && cp -R css js assets dist/
+cp index.html 404.html dist/ && cp -R css js assets dist/
 npx wrangler pages deploy dist --project-name first-touch-construction --branch main
 ```
 

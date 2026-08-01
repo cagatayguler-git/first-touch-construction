@@ -318,6 +318,30 @@ h3 { font-size: 1.25rem; }
 }
 .form-note { font-size: .9rem; text-align: center; min-height: 1.2em; color: var(--green-600); font-weight: 500; }
 
+/* ===================== 404 ===================== */
+.notfound {
+  position: relative; min-height: 100svh; display: flex; align-items: center;
+  background: var(--green-900); color: var(--white); overflow: hidden;
+  padding: 4rem 0;
+}
+/* Oversized watermark bleeding off the bottom-right corner of the section. */
+.notfound-code {
+  position: absolute; right: -.05em; bottom: -.3em; z-index: 0;
+  font-family: var(--font-head); font-weight: 700; line-height: .8;
+  font-size: clamp(9rem, 26vw, 24rem); letter-spacing: -.04em;
+  color: rgba(201,162,39,.1); user-select: none; pointer-events: none;
+}
+.notfound-inner { position: relative; z-index: 1; max-width: 640px; }
+.notfound-brand { display: inline-flex; margin-bottom: 3rem; }
+/* The default accent square is dark green — invisible on this background. */
+.notfound-brand .brand-mark svg .accent { fill: var(--gold-light); }
+.notfound .eyebrow { color: var(--gold-light); }
+.notfound-lead { font-size: clamp(1.02rem, 2vw, 1.18rem); color: rgba(255,255,255,.85); margin: 1.4rem 0 2.4rem; }
+.notfound-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+.notfound-contact { margin-top: 2.6rem; font-size: .92rem; color: rgba(255,255,255,.6); }
+.notfound-contact a { color: var(--gold-light); }
+.notfound-contact a:hover { color: var(--white); }
+
 /* ===================== FOOTER ===================== */
 .site-footer { background: var(--green-900); color: rgba(255,255,255,.7); padding: 4rem 0 2rem; }
 .footer-grid { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: 2.5rem; padding-bottom: 3rem; border-bottom: 1px solid rgba(255,255,255,.1); }
