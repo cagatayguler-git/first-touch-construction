@@ -40,21 +40,55 @@ if ('IntersectionObserver' in window) {
   revealEls.forEach((el) => el.classList.add('visible'));
 }
 
-// ===================== Contact form (front-end demo) =====================
+// ===================== Contact form =====================
+// Submitted to Web3Forms over fetch so the visitor stays on the page.
 const form = document.getElementById('contactForm');
 const note = document.getElementById('formNote');
-form.addEventListener('submit', (e) => {
+const submitBtn = form.querySelector('button[type="submit"]');
+
+const setNote = (message, tone) => {
+  note.textContent = message;
+  note.style.color = tone === 'warn' ? 'var(--gold-dark)' : tone === 'error' ? '#b4342a' : '';
+};
+
+form.addEventListener('submit', async (e) => {
   e.preventDefault();
-  const name = form.name.value.trim();
-  const email = form.email.value.trim();
+  // NB: use form.elements — form.name resolves to the form's own name attribute, not the input.
+  const name = form.elements.name.value.trim();
+  const email = form.elements.email.value.trim();
+
   if (!name || !email) {
-    note.style.color = '#a9871c';
-    note.textContent = 'Please add your name and email so we can reply.';
+    setNote('Please add your name and email so we can reply.', 'warn');
     return;
   }
-  note.style.color = '';
-  note.textContent = `Thanks, ${name.split(' ')[0]} — your enquiry has been noted. We'll be in touch shortly.`;
-  form.reset();
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    setNote('That email address looks incomplete — could you check it?', 'warn');
+    return;
+  }
+
+  const label = submitBtn.textContent;
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Sending…';
+  setNote('Sending your enquiry…');
+
+  try {
+    const res = await fetch(form.action, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify(Object.fromEntries(new FormData(form))),
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok || !data.success) throw new Error(data.message || `Web3Forms responded ${res.status}`);
+
+    setNote(`Thanks, ${name.split(' ')[0]} — your enquiry is on its way. We'll be in touch shortly.`);
+    form.reset();
+  } catch (err) {
+    console.error('Enquiry submission failed:', err);
+    setNote('Sorry, we could not send that. Please email kutay@firsttouchconstruction.co.uk or call 07743 516554.', 'error');
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.textContent = label;
+  }
 });
 
 // ===================== Footer year =====================

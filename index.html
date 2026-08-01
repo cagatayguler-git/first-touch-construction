@@ -325,7 +325,14 @@
         </ul>
       </div>
 
-      <form class="contact-form reveal" id="contactForm" novalidate>
+      <form class="contact-form reveal" id="contactForm" action="https://api.web3forms.com/submit" method="POST" novalidate>
+        <!-- Web3Forms: enquiries are emailed to the address the access key is registered to -->
+        <input type="hidden" name="access_key" value="a4f68775-bcdb-4c82-a62f-2e8a15ba4d81" />
+        <input type="hidden" name="subject" value="New website enquiry — First Touch Construction" />
+        <input type="hidden" name="from_name" value="First Touch Construction website" />
+        <!-- Honeypot: hidden from people, tempting to bots. Web3Forms drops any submission that ticks it. -->
+        <input type="checkbox" name="botcheck" tabindex="-1" aria-hidden="true" style="display: none !important" />
+
         <div class="field">
           <label for="name">Full name</label>
           <input type="text" id="name" name="name" placeholder="Jane Smith" required />

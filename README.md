@@ -36,9 +36,11 @@ python3 -m http.server 8080
 
 ## Notes
 
-- The **contact form is a front-end demo** — it validates and confirms in the browser but does not
-  send anywhere yet. Wire it to an email service (Formspree, Resend, a serverless function, etc.)
-  before going live.
+- The **contact form posts to [Web3Forms](https://web3forms.com)** via `fetch`, so the visitor stays
+  on the page. Enquiries are emailed to whichever address the access key is registered to.
+  The key lives in the `access_key` hidden input in `index.html` — it is a public,
+  submit-only identifier, safe to keep in the repo, and can be rotated from the Web3Forms
+  dashboard if it ever gets abused. A hidden `botcheck` honeypot field filters basic spam.
 - Phone (`07743 516554`) and email (`kutay@firsttouchconstruction.co.uk`) are the **live** contact
   details.
 - Images are photo renders of the brand logo and real project work supplied by the client.
