@@ -1,0 +1,33 @@
+name: Deploy to Cloudflare Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Let an in-flight deploy finish rather than racing a newer one to production.
+concurrency:
+  group: pages-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      # Only the files the site actually serves — keeps README.md and the
+      # repo plumbing off the CDN.
+      - name: Stage site files
+        run: |
+          rm -rf dist && mkdir dist
+          cp index.html dist/
+          cp -R css js assets dist/
+          find dist -type f | sort
+
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v4
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy dist --project-name=first-touch-construction --branch=main

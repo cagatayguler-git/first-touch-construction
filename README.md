@@ -50,20 +50,27 @@ python3 -m http.server 8080
 Live at **https://firsttouchconstruction.co.uk** (and `www.`), hosted on **Cloudflare Pages**
 in the account that also holds the domain, so DNS and SSL are managed in one place.
 
-There is no Git integration yet, so **pushing to `main` does not deploy**. Deploys are direct
-uploads of the static files:
+**Pushing to `main` deploys automatically** via
+[`.github/workflows/deploy.yml`](.github/workflows/deploy.yml), which stages the site files into
+`dist/` and runs `wrangler pages deploy`. It needs two repository secrets — `CLOUDFLARE_API_TOKEN`
+(Cloudflare Pages: Edit) and `CLOUDFLARE_ACCOUNT_ID`. Rotating the token means updating the secret.
+
+Only site files are copied into `dist/` — `README.md` and the repo plumbing are deliberately left
+out so they are not served.
+
+To deploy by hand (same thing the workflow does):
 
 ```bash
-# from the repo root, with CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID exported
 rm -rf dist && mkdir dist
 cp index.html dist/ && cp -R css js assets dist/
 npx wrangler pages deploy dist --project-name first-touch-construction --branch main
 ```
 
-Only site files are copied into `dist/` — the README and `.git` are deliberately left out so they
-are not served. To get deploy-on-push instead, connect the repo under
-**Workers & Pages → first-touch-construction → Settings → Builds** (framework preset *None*,
-empty build command, output directory `/`); that requires GitHub access for the Cloudflare account.
+The Pages project was created by Direct Upload, and Cloudflare does not let such a project be
+converted to a Git-connected one afterwards — hence CI rather than Cloudflare's own Git
+integration. Note that Cloudflare's dashboard now steers new projects towards **Workers** instead;
+that path would need a `wrangler.jsonc` with an `assets` binding in the repo and the custom domains
+moved off this Pages project, so it is deliberately not used here.
 
 Cloudflare's zone-level **Email Address Obfuscation** (Scrape Shield) rewrites the `mailto:` links
 at the edge and decodes them in the browser, so the address is hidden from scrapers. It needs
